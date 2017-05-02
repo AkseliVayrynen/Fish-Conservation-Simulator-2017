@@ -15,19 +15,33 @@ $(document).ready(function() {
     
     var gameState = 1;
     
+    //Intro
     if (gameState === 1) {
         //Load background:
         var testBG = new Image();
         testBG.src = "assets/testBG.png";
         testBG.onload = function() {
         ctx.drawImage(testBG, 0, 0);
-            
-        //Intro animation:
+        //Intro animation-to-come:
         ctx.font = "25px Verdana";
         ctx.fillText("Fish Conservation Simulator 2017", 35 ,50);
-         
+            
+        //Button, for test purposes only:
+        var testButton = new Image();
+        testButton.src = "assets/testButton.png";
+        testButton.onload = function () {
+        ctx.drawImage(testButton, 450, 325);
+        };
+                    
     };
 
+    };
+    
+    
+    
+    if (gameState === 5) {
+        
     }
+    
     
 });
