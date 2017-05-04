@@ -1,6 +1,13 @@
 
-
+//Creating a new Phaser Game:
 var game = new Phaser.Game(1000, 600, Phaser.CANVAS, 'test', { preload: preload, create: create, update: update, render: render });
+
+
+
+
+
+
+/* The game physics, with the help of phaser.io */
 
 function preload() {
 
@@ -21,7 +28,7 @@ function create() {
 
     // set global gravity
     game.physics.arcade.gravity.y = 0;
-    game.stage.backgroundColor = '#0072bc';
+    game.stage.backgroundColor = '#42d4f4';
     
     var graphics = game.add.graphics(0,0);
     graphics.beginFill(0x049e0c);
