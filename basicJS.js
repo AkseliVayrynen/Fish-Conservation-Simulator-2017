@@ -6,7 +6,7 @@ function preload() {
 
     game.load.image('analog', 'assets/fusia.png');
     game.load.image('arrow', 'assets/longarrow2.png');
-    game.load.image('ball', 'assets/pangball.png');    
+    game.load.image('ball', 'assets/fishtest.png');    
 
 }
 
@@ -20,7 +20,7 @@ function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     // set global gravity
-    game.physics.arcade.gravity.y = 200;
+    game.physics.arcade.gravity.y = 0;
     game.stage.backgroundColor = '#0072bc';
     
     var graphics = game.add.graphics(0,0);
