@@ -1,6 +1,6 @@
 
 
-var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
+var game = new Phaser.Game(1000, 600, Phaser.CANVAS, 'test', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
 
@@ -104,11 +104,6 @@ function update() {
 
 function render() {
 
-    game.debug.text("Drag the ball and release to launch", 32, 32);
 
-    game.debug.bodyInfo(ball, 32, 64);
-
-    // game.debug.spriteInfo(ball, 32, 64);
-    // game.debug.text("Launch Velocity: " + parseInt(launchVelocity), 32, 250);
 
 }
