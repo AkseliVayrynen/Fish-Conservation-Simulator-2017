@@ -1,47 +1,114 @@
-$(document).ready(function() {
-    var c = document.getElementById("gameCanvas");
-    var ctx = c.getContext("2d");
-    
-    
-    
-    /* The game runs in different gameStates. They are as follows:
-        1 ------ Intro
-        2 ------ Main Menu
-        3 ------ Help
-        4 ------ Credits
-        5 ------ Game
-        6 ------ Ending
-    */
-    
-    var gameState = 1;
-    
-    //Intro
-    if (gameState === 1) {
-        //Load background:
-        var testBG = new Image();
-        testBG.src = "assets/testBG.png";
-        testBG.onload = function() {
-        ctx.drawImage(testBG, 0, 0);
-        //Intro animation-to-come:
-        ctx.font = "25px Verdana";
-        ctx.fillText("Fish Conservation Simulator 2017", 35 ,50);
-            
-        //Button, for test purposes only:
-        var testButton = new Image();
-        testButton.src = "assets/testButton.png";
-        testButton.onload = function () {
-        ctx.drawImage(testButton, 450, 325);
-        };
-                    
-    };
 
-    };
+
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
+
+function preload() {
+
+    game.load.image('analog', 'assets/fusia.png');
+    game.load.image('arrow', 'assets/longarrow2.png');
+    game.load.image('ball', 'assets/pangball.png');    
+
+}
+
+var arrow;
+var ball;
+var catchFlag = false;
+var launchVelocity = 0;
+
+function create() {
+
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    // set global gravity
+    game.physics.arcade.gravity.y = 200;
+    game.stage.backgroundColor = '#0072bc';
     
+    var graphics = game.add.graphics(0,0);
+    graphics.beginFill(0x049e0c);
+    graphics.drawRect(395, 350, 10, 250);
+
+    analog = game.add.sprite(400, 350, 'analog');
+
+    game.physics.enable(analog, Phaser.Physics.ARCADE);
+
+    analog.body.allowGravity = false;
+    analog.width = 8;
+    analog.rotation = 220;
+    analog.alpha = 0;
+    analog.anchor.setTo(0.5, 0.0);
     
+    arrow = game.add.sprite(400, 350, 'arrow');
+
+    game.physics.enable(arrow, Phaser.Physics.ARCADE);
+
+    arrow.anchor.setTo(0.1, 0.5);
+    arrow.body.moves = false;
+    arrow.body.allowGravity = false;
+    arrow.alpha = 0;
     
-    if (gameState === 5) {
+    ball = game.add.sprite(100, 400, 'ball');
+    game.physics.enable(ball, Phaser.Physics.ARCADE);
+    ball.anchor.setTo(0.5, 0.5);
+    ball.body.collideWorldBounds = true;
+    ball.body.bounce.setTo(0.9, 0.9);
+    
+    // Enable input.
+    ball.inputEnabled = true;
+    ball.input.start(0, true);
+    ball.events.onInputDown.add(set);
+    ball.events.onInputUp.add(launch);
+
+}
+
+function set(ball, pointer) {
+
+    ball.body.moves = false;
+    ball.body.velocity.setTo(0, 0);
+    ball.body.allowGravity = false;
+    catchFlag = true;
+
+}
+
+function launch() {
+
+    catchFlag = false;
+    
+    ball.body.moves = true;
+    arrow.alpha = 0;
+    analog.alpha = 0;
+    Xvector = (arrow.x - ball.x) * 3;
+    Yvector = (arrow.y - ball.y) * 3;
+    ball.body.allowGravity = true;  
+    ball.body.velocity.setTo(Xvector, Yvector);
+
+}
+
+function update() {
+
+    arrow.rotation = game.physics.arcade.angleBetween(arrow, ball);
+    
+    if (catchFlag == true)
+    {
+        //  Track the ball sprite to the mouse  
+        ball.x = game.input.activePointer.worldX;   
+        ball.y = game.input.activePointer.worldY;
         
-    }
-    
-    
-});
+        arrow.alpha = 1;    
+        analog.alpha = 0.5;
+        analog.rotation = arrow.rotation - 3.14 / 2;
+        analog.height = game.physics.arcade.distanceToPointer(arrow);  
+        launchVelocity = analog.height;
+    }   
+
+}
+
+function render() {
+
+    game.debug.text("Drag the ball and release to launch", 32, 32);
+
+    game.debug.bodyInfo(ball, 32, 64);
+
+    // game.debug.spriteInfo(ball, 32, 64);
+    // game.debug.text("Launch Velocity: " + parseInt(launchVelocity), 32, 250);
+
+}
