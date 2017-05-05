@@ -14,6 +14,7 @@ function preload() {
     game.load.image('analog', 'assets/fusia.png');
     game.load.image('arrow', 'assets/longarrow2.png');
     game.load.spritesheet('ball', 'assets/resizeimage.net-output.png', 64, 64);
+    game.load.image('goal', 'assets/goaltest.png');
 
 }
 
@@ -67,6 +68,17 @@ function create() {
     
     animation = ball.animations.add('swim');
     ball.animations.play('swim',30,true);
+    
+    
+    //Moving goal:
+    var movingGoal = game.add.sprite(700, 0, 'goal');
+    game.physics.enable([movingGoal], Phaser.Physics.ARCADE);
+    
+    movingGoal.body.velocity.setTo(0, 150);
+    movingGoal.body.collideWorldBounds = true;
+    movingGoal.body.bounce.setTo(1,1);
+    text = game.add.text(0, 0, "Y-axis: " + movingGoal.body.y);
+    
 }
 
 function set(ball, pointer) {
