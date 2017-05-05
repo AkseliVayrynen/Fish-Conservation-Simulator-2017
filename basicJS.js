@@ -3,7 +3,7 @@
 var game = new Phaser.Game(1000, 600, Phaser.CANVAS, 'test', { preload: preload, create: create, update: update, render: render });
 
 
-// toimiiks tää
+// toimiiks tää nyt
 
 
 
