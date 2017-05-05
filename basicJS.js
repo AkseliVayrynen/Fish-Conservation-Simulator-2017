@@ -13,7 +13,7 @@ function preload() {
 
     game.load.image('analog', 'assets/fusia.png');
     game.load.image('arrow', 'assets/longarrow2.png');
-    game.load.image('ball', 'assets/fishtest.png');    
+    game.load.spritesheet('ball','assets/swim_to_right_sheet.png' , 256, 256, 6);    
 
 }
 
@@ -64,7 +64,9 @@ function create() {
     ball.input.start(0, true);
     ball.events.onInputDown.add(set);
     ball.events.onInputUp.add(launch);
-
+    
+    animation = ball.animations.add(swim);
+    ball.animations.play('swim',30,true);
 }
 
 function set(ball, pointer) {
