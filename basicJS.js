@@ -11,7 +11,7 @@ var game = new Phaser.Game(1000, 600, Phaser.CANVAS, 'test', { preload: preload,
 
 function preload() {
 
-    game.load.image('analog', 'assets/fusia.png');
+    game.load.image('analog', 'assets/black.png');
     game.load.image('arrow', 'assets/longarrow2.png');
     game.load.spritesheet('ball', 'assets/resizeimage.net-output.png', 64, 64);
     game.load.image('goal', 'assets/goaltest.png');
@@ -77,6 +77,8 @@ function create() {
     movingGoal.body.velocity.setTo(0, 150);
     movingGoal.body.collideWorldBounds = true;
     movingGoal.body.bounce.setTo(1,1);
+    
+    //For testing purposes:
     text = game.add.text(0, 0, "Y-axis: " + movingGoal.body.y);
     
 }
