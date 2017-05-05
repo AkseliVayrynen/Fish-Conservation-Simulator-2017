@@ -32,7 +32,7 @@ function create() {
     game.stage.backgroundColor = '#42d4f4';
     
     var graphics = game.add.graphics(0,0);
-    graphics.beginFill(0x049e0c);
+   // graphics.beginFill(0x049e0c);
     graphics.drawRect(395, 350, 10, 250);
 
     analog = game.add.sprite(400, 350, 'analog');
