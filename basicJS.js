@@ -14,6 +14,8 @@ function preload() {
     game.load.image('analog', 'assets/black.png');
     game.load.image('arrow', 'assets/longarrow2.png');
     game.load.spritesheet('ball', 'assets/resizeimage.net-output.png', 64, 64);
+    game.load.spritesheet('happyfish', 'assets/resizeimage.net-output.png', 64, 64);
+    game.load.spritesheet('happyfishleft', 'assets/happyfishtotheleft.png', 64, 64);
     game.load.image('goal', 'assets/goaltest.png');
     game.load.image('wall', 'assets/wall.png');
     game.load.image('deadfish', 'assets/dead fisu.png');
@@ -103,10 +105,42 @@ function create() {
     ball.events.onInputDown.add(set);
     ball.events.onInputUp.add(launch);
     
+    
+    happyfish1= game.add.sprite(800, 400, 'happyfish');
+    game.physics.enable([happyfish1], Phaser.Physics.ARCADE);
+    happyfish1.body.velocity.setTo(0, 50);
+    happyfish1.body.collideWorldBounds = true;
+    happyfish1.body.bounce.setTo(1,1);
+    
+    
+    happyfish2= game.add.sprite(850, 200, 'happyfish');
+    game.physics.enable([happyfish2], Phaser.Physics.ARCADE);
+    happyfish2.body.velocity.setTo(0, -70);
+    happyfish2.body.collideWorldBounds = true;
+    happyfish2.body.bounce.setTo(1,1);
+    
+    happyfish3= game.add.sprite(900, 100, 'happyfish');
+    
+    
+    happyfish4= game.add.sprite(930, 350, 'happyfishleft');
+    
+    
+    
+   // sprite animations  
     animation = ball.animations.add('swim');
     ball.animations.play('swim',30,true);
-
     
+    animation2 = happyfish1.animations.add('swim2');
+    happyfish1.animations.play('swim2',30,true);
+
+    animation3 = happyfish2.animations.add('swim2');
+    happyfish2.animations.play('swim2',30,true);
+    
+    animation4 = happyfish3.animations.add('swim2');
+    happyfish3.animations.play('swim2',30,true);
+    
+    animation5 = happyfish4.animations.add('swim2');
+    happyfish4.animations.play('swim2',30,true);
 }
 
 function set(ball, pointer) {
