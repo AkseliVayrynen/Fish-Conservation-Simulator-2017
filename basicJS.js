@@ -133,7 +133,7 @@ function create() {
 
     text.anchor.setTo(0.5, 6);
     
-     ball = game.add.sprite(100, 300, 'ball');
+     ball = game.add.sprite(400, 300, 'ball');
     game.physics.enable(ball, Phaser.Physics.ARCADE);
     ball.anchor.setTo(0.5, 0.5);
     ball.body.collideWorldBounds = true;
@@ -285,7 +285,7 @@ function makeFishAlive() {
 function backtoStart() {
     makeFishAlive();
     ball.body.moves = false;
-    ball.x = 100;
+    ball.x = 400;
     ball.y = 300;
     isDead = false;
 }
