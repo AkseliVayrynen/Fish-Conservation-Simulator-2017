@@ -76,7 +76,7 @@ function create() {
    // graphics.beginFill(0x049e0c);
     graphics.drawRect(395, 350, 10, 250);
 
-    analog = game.add.sprite(400, 350, 'analog');
+    analog = game.add.sprite(400, 300, 'analog');
 
     game.physics.enable(analog, Phaser.Physics.ARCADE);
 
@@ -86,7 +86,7 @@ function create() {
     analog.alpha = 0;
     analog.anchor.setTo(0.5, 0.0);
     
-    arrow = game.add.sprite(400, 350, 'arrow');
+    arrow = game.add.sprite(400, 300, 'arrow');
 
     game.physics.enable(arrow, Phaser.Physics.ARCADE);
 
@@ -127,7 +127,7 @@ function create() {
     
     timeText.anchor.setTo(1.7, 6);
     
-     ball = game.add.sprite(100, 400, 'ball');
+     ball = game.add.sprite(100, 300, 'ball');
     game.physics.enable(ball, Phaser.Physics.ARCADE);
     ball.anchor.setTo(0.5, 0.5);
     ball.body.collideWorldBounds = true;
