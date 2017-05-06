@@ -173,6 +173,7 @@ function update() {
 
 function failure() {
         ball.body.moves = false;
+        ball.x = 670;
         ball.loadTexture('deadfish', 0);
         isDead = true;
         failureSound = game.add.audio('noSuccess');
