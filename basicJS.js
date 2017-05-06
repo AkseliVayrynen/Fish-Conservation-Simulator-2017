@@ -17,24 +17,23 @@ In order to run different "windows" in the game, we use gameStates.
 var gameState = 3;
 
 if (gameState === 3) {
-runGame();
-}
+    runGame();
+} 
 
 
+//THE GAME ITSELF:
 
 function runGame() {
-//Creating a new Phaser Game:
+
+    
 var game = new Phaser.Game(1000, 600, Phaser.CANVAS, 'test', { preload: preload, create: create, update: update, render: render });
-
-
-// toimiiks tää nyt
 
 
 
 /* The game physics, with the help of phaser.io */
 
 function preload() {
-
+    game.load.audio('BG', 'assets/gamemusic.mp3');
     game.load.image('analog', 'assets/black.png');
     game.load.image('arrow', 'assets/longarrow2.png');
     game.load.spritesheet('ball', 'assets/resizeimage.net-output.png', 64, 64);
@@ -58,7 +57,8 @@ var failureSound;
 var isDead = false;
 var timeLeft = 10;
 var timeText;
-var timeToEnd = 1000;
+var timeToEnd = 1500;
+var backGroundMusic;
 
 
 function create() {
@@ -69,7 +69,8 @@ function create() {
     game.physics.arcade.gravity.y = 0;
     game.stage.backgroundColor = '#42d4f4';
     
-    
+    backGroundMusic = game.add.audio('BG');
+    backGroundMusic.play();
     
     var graphics = game.add.graphics(0,0);
    // graphics.beginFill(0x049e0c);
@@ -175,6 +176,7 @@ function create() {
     
     animation5 = happyfish4.animations.add('swim2');
     happyfish4.animations.play('swim2',30,true);
+    
 }
 
 function set(ball, pointer) {
@@ -308,7 +310,7 @@ function reduceTime() {
 
 function giveMoreTime() {
     if (timeToEnd > 0) {
-        timeToEnd = timeToEnd + 250;
+        timeToEnd = timeToEnd + 350;
         timeText.setText("Time left: " + timeToEnd);
     }
 }
