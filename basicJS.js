@@ -12,13 +12,13 @@ var game = new Phaser.Game(1000, 600, Phaser.CANVAS, 'test', { preload: preload,
 function preload() {
 
     game.load.image('analog', 'assets/black.png');
-    game.load.image('arrow', 'assets/longarrow2.png');
+    game.load.image('arrow', 'assets/nuoli.png');
     game.load.spritesheet('ball', 'assets/resizeimage.net-output.png', 64, 64);
-    game.load.spritesheet('happyfish', 'assets/resizeimage.net-output.png', 64, 64);
+    game.load.spritesheet('happyfish', 'assets/Staattinenhymy.png', 64, 64);
     game.load.spritesheet('happyfishleft', 'assets/happyfishtotheleft.png', 64, 64);
     game.load.image('goal', 'assets/goaltest.png');
     game.load.image('wall', 'assets/wall.png');
-    game.load.image('deadfish', 'assets/dead fisu.png');
+    game.load.image('deadfish', 'assets/kuollutkala.png');
     game.load.audio('noSuccess', 'assets/epaonnistuminen.mp3');
 
 }
@@ -141,16 +141,16 @@ function create() {
     ball.animations.play('swim',30,true);
     
     animation2 = happyfish1.animations.add('swim2');
-    happyfish1.animations.play('swim2',30,true);
+    happyfish1.animations.play('swim2',20,true);
 
     animation3 = happyfish2.animations.add('swim2');
-    happyfish2.animations.play('swim2',30,true);
+    happyfish2.animations.play('swim2',20,true);
     
     animation4 = happyfish3.animations.add('swim2');
-    happyfish3.animations.play('swim2',30,true);
+    happyfish3.animations.play('swim2',20,true);
     
     animation5 = happyfish4.animations.add('swim2');
-    happyfish4.animations.play('swim2',30,true);
+    happyfish4.animations.play('swim2',20,true);
 }
 
 function set(ball, pointer) {
