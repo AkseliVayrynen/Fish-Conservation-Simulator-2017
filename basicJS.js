@@ -1,4 +1,4 @@
-
+function runGame() {
 //Creating a new Phaser Game:
 var game = new Phaser.Game(1000, 600, Phaser.CANVAS, 'test', { preload: preload, create: create, update: update, render: render });
 
@@ -28,11 +28,13 @@ var ball;
 var catchFlag = false;
 var launchVelocity = 0;
 var text;
-var count;
+var count = 0;
 var goal;
 var failureSound;
 var isDead = false;
 var timeLeft = 10;
+var timeText;
+var timeToEnd = 1000;
 
 
 function create() {
@@ -84,13 +86,21 @@ function create() {
     count = 0;
 
     
-    text = game.add.text(game.world.centerX, game.world.centerY, "Fish saved: 0", {
+    text = game.add.text(game.world.centerX, game.world.centerY, "Fish saved: " + count, {
         font: "35px Arial",
         fill: "black",
         align: "center"
     });
 
-    text.anchor.setTo(1,5, 6);
+    text.anchor.setTo(0.5, 6);
+    
+    timeText = game.add.text(game.world.centerX, game.world.centerY, "Time left: ", {
+        font: "35px Arial",
+        fill: "black",
+        align: "center"
+    });
+    
+    timeText.anchor.setTo(1.7, 6);
     
      ball = game.add.sprite(100, 400, 'ball');
     game.physics.enable(ball, Phaser.Physics.ARCADE);
@@ -170,6 +180,9 @@ function update() {
 
     arrow.rotation = game.physics.arcade.angleBetween(arrow, ball);
     
+    reduceTime();
+  
+    
     if (catchFlag == true)
     {
         //  Track the ball sprite to the mouse  
@@ -197,6 +210,7 @@ function update() {
     if (fishX >= 750 && catchFlag != true && !isDead) {
         ball.x = 900;
         updateSaveText();
+        giveMoreTime();
         backtoStart();
         
         }
@@ -230,12 +244,55 @@ function backtoStart() {
 }
         
 function updateSaveText() {
-    count++;
-    text.setText("Fish saved: " + count);
+    if (timeToEnd > 0) { 
+        count++;
+        text.setText("Fish saved: " + count);
+    }
 }
 
+function reduceTime() {
+    if (timeToEnd > 0) {
+        //Beginning:
+    if (count < 10) {
+        timeToEnd = timeToEnd - 1;
+        timeText.setText("Time left: " + timeToEnd);
+    }
+        //After first ten fish
+    if (count >= 10 && count < 20) {
+        timeToEnd = timeToEnd - 2;
+        timeText.setText("Time left: " + timeToEnd);
+    }
+        //After 20
+    if (count >= 20 && count < 30) {
+        timeToEnd = timeToEnd  - 3;
+        timeText.setText("Time left: " + timeToEnd);
+    }
+        //After 30
+    if (count >= 30 && count < 40) {
+        timeToEnd = timeToEnd - 4;
+        timeText.setText("Time left: " + timeToEnd);
+    }
+        
+    if (count >= 40) {
+        timeToEnd = timeToEnd - 5;
+        timeText.setText("Time left: " + timeToEnd);
+    }
+    } else {
+        timeText.setText("YOU LOST!");
+    }
+}
+
+function giveMoreTime() {
+    if (timeToEnd > 0) {
+        timeToEnd = timeToEnd + 250;
+        timeText.setText("Time left: " + timeToEnd);
+    }
+}
 
 function render() {
 
 
 }
+}
+
+runGame();
