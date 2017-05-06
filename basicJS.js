@@ -175,12 +175,12 @@ function create() {
     happyfish3.animations.play('swim2',20,true);
     
     animation5 = happyfish4.animations.add('swim2');
-<<<<<<< HEAD
+
     happyfish4.animations.play('swim2',30,true);
     
-=======
+
     happyfish4.animations.play('swim2',20,true);
->>>>>>> origin/master
+
 }
 
 function set(ball, pointer) {
