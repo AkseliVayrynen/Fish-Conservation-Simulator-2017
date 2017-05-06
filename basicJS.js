@@ -71,16 +71,15 @@ function create() {
     
     //Great wall:
     var greatWall = game.add.sprite(700, 0, 'wall');
-
     //Moving Goal:
     goal = game.add.sprite(700, 0, 'goal');
     game.physics.enable([goal], Phaser.Physics.ARCADE);
-    
+    goal.body.gravity.y = 0;
     goal.body.velocity.setTo(0, 150);
     goal.body.collideWorldBounds = true;
     goal.body.bounce.setTo(1,1);
     
-     count = 0;
+    count = 0;
 
     
     text = game.add.text(game.world.centerX, game.world.centerY, "Fish saved: 0", {
@@ -96,7 +95,8 @@ function create() {
     ball.anchor.setTo(0.5, 0.5);
     ball.body.collideWorldBounds = true;
     ball.body.bounce.setTo(0.9, 0.9);
-    
+    //CHANGE THIS VALUE IF YOU WANT TO CHANGE GRAVITY!!!
+    ball.body.gravity.y = 400; 
     // Enable input.
     ball.inputEnabled = true;
     ball.input.start(0, true);
@@ -160,7 +160,8 @@ function update() {
         }
     
     //If fish goes thru the goal
-    if (fishX >= 950 && catchFlag != true && !isDead) {
+    if (fishX >= 750 && catchFlag != true && !isDead) {
+        ball.x = 900;
         updateSaveText();
         backtoStart();
         
