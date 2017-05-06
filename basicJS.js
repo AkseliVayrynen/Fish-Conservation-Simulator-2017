@@ -44,6 +44,8 @@ function preload() {
     game.load.image('deadfish', 'assets/kuollutkala.png');
     game.load.audio('noSuccess', 'assets/epaonnistuminen.ogg');
     game.load.audio('yay', 'assets/yay.wav');
+    game.load.image('menuscreen','assets/menubackground.png');
+    game.load.image('gamescreen','assets/gamescreen.png')
 
 }
 
@@ -58,9 +60,14 @@ var failureSound;
 var successSound;
 var isDead = false;
 var timeLeft = 10;
-var timeText;
-var timeToEnd = 1500;
+var timeToEnd = 1000;
 var backGroundMusic;
+var rectTimer = {
+    x: 165,
+        y: 25,
+        w: 170,
+        h: 50,
+    };
 
 
 function create() {
@@ -69,13 +76,18 @@ function create() {
 
     // set global gravity
     game.physics.arcade.gravity.y = 0;
-    game.stage.backgroundColor = '#42d4f4';
+    game.add.tileSprite(0, 0, 1000, 600, 'gamescreen')
     
     backGroundMusic = game.add.audio('BG');
     backGroundMusic.play();
     
     var graphics = game.add.graphics(0,0);
    // graphics.beginFill(0x049e0c);
+    // draw a background rectangle for the timer
+    graphics.beginFill(0x000000, 1);
+    graphics.drawRect(160, 20, 180, 60);
+    graphics.endFill();
+    window.graphics = graphics;
     graphics.drawRect(395, 350, 10, 250);
 
     analog = game.add.sprite(400, 300, 'analog');
@@ -120,14 +132,6 @@ function create() {
     });
 
     text.anchor.setTo(0.5, 6);
-    
-    timeText = game.add.text(game.world.centerX, game.world.centerY, "Time left: ", {
-        font: "35px Arial",
-        fill: "black",
-        align: "center"
-    });
-    
-    timeText.anchor.setTo(1.7, 6);
     
      ball = game.add.sprite(100, 300, 'ball');
     game.physics.enable(ball, Phaser.Physics.ARCADE);
@@ -221,6 +225,7 @@ function update() {
     arrow.rotation = game.physics.arcade.angleBetween(arrow, ball);
     
     reduceTime();
+    updateRect();
   
     
     if (catchFlag == true)
@@ -292,47 +297,51 @@ function updateSaveText() {
     }
 }
 
+function updateRect(){
+    floor = new Phaser.Rectangle(rectTimer.x, rectTimer.y, rectTimer.w, rectTimer.h);
+    rectTimer.w =  165*(timeToEnd/1000);
+} 
+
 function reduceTime() {
     if (timeToEnd > 0) {
         //Beginning:
     if (count < 10) {
         timeToEnd = timeToEnd - 1;
-        timeText.setText("Time left: " + timeToEnd);
     }
         //After first ten fish
     if (count >= 10 && count < 20) {
         timeToEnd = timeToEnd - 2;
-        timeText.setText("Time left: " + timeToEnd);
     }
         //After 20
     if (count >= 20 && count < 30) {
         timeToEnd = timeToEnd  - 3;
-        timeText.setText("Time left: " + timeToEnd);
     }
         //After 30
     if (count >= 30 && count < 40) {
         timeToEnd = timeToEnd - 4;
-        timeText.setText("Time left: " + timeToEnd);
     }
         
     if (count >= 40) {
         timeToEnd = timeToEnd - 5;
-        timeText.setText("Time left: " + timeToEnd);
     }
-    } else {
-        timeText.setText("YOU LOST!");
     }
 }
 
 function giveMoreTime() {
     if (timeToEnd > 0) {
-        timeToEnd = timeToEnd + 350;
-        timeText.setText("Time left: " + timeToEnd);
+        timeToEnd = Math.min(1000,timeToEnd + 350);
     }
 }
 
 function render() {
-
-
+    if(timeToEnd>666){
+        game.debug.geom(floor,'#62f442');
+    }
+    if(timeToEnd<667 && timeToEnd>200){
+        game.debug.geom(floor,'#fff716');
+    }
+    if(timeToEnd<201){
+        game.debug.geom(floor,'#ff1616');
+    }
 }
 }
