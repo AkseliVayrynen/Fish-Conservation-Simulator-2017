@@ -1,3 +1,27 @@
+/*
+THIS IS A GAME MADE FOR VJP 2017 AT AALTO UNIVERSITY BY KINNARI, PÖNTINEN, VÄYRYNEN.
+HAVE FUN!
+*/
+
+/*
+In order to run different "windows" in the game, we use gameStates.
+
+        The gameStates are as follows:
+        1 --------- Intro
+        2 --------- Main Menu
+        3 --------- The game itself
+        4 --------- Help
+
+
+*/
+var gameState = 3;
+
+if (gameState === 3) {
+runGame();
+}
+
+
+
 function runGame() {
 //Creating a new Phaser Game:
 var game = new Phaser.Game(1000, 600, Phaser.CANVAS, 'test', { preload: preload, create: create, update: update, render: render });
@@ -294,5 +318,3 @@ function render() {
 
 }
 }
-
-runGame();
