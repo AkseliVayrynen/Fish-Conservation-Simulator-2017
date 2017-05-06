@@ -17,6 +17,7 @@ function preload() {
     game.load.image('goal', 'assets/goaltest.png');
     game.load.image('wall', 'assets/wall.png');
     game.load.image('deadfish', 'assets/dead fisu.png');
+    game.load.audio('noSuccess', 'assets/epaonnistuminen.mp3');
 
 }
 
@@ -27,6 +28,7 @@ var launchVelocity = 0;
 var text;
 var count;
 var goal;
+var failureSound;
 
 function create() {
 
@@ -143,20 +145,25 @@ function update() {
     var fishX = ball.x;
     var fishY = ball.y;
     
-    
+
     //Point counter:
     if (fishX >= 650 && catchFlag != true) {
+        if (ball.y < goal.y || ball.y > goal.y + 150) {
         ball.body.moves = false;
         ball.loadTexture('deadfish', 0);
+        failureSound = game.add.audio('noSuccess');
+        failureSound.play();
         ball.x = 100;
         ball.y = 400;
+        updateText();
         
+        }
         /* 
         ADD MAKES FISH ALIVE AGAIN:
         ball.loadTexture('ball', 0);
         animation = ball.animations.add('swim');
         ball.animations.play('swim',30,true);
-        updateText(); */
+         */
     }
     
 
@@ -166,7 +173,8 @@ function update() {
 function updateText() {
 
     count++;
-    text.setText("Fish saved: " + count );
+    text.setText("Fish saved: " + count +" Y-akseli " + goal.y );
+    
 
 }
 
