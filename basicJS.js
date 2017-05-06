@@ -41,6 +41,8 @@ function create() {
     game.physics.arcade.gravity.y = 0;
     game.stage.backgroundColor = '#42d4f4';
     
+    
+    
     var graphics = game.add.graphics(0,0);
    // graphics.beginFill(0x049e0c);
     graphics.drawRect(395, 350, 10, 250);
@@ -64,20 +66,7 @@ function create() {
     arrow.body.allowGravity = false;
     arrow.alpha = 0;
     
-    ball = game.add.sprite(100, 400, 'ball');
-    game.physics.enable(ball, Phaser.Physics.ARCADE);
-    ball.anchor.setTo(0.5, 0.5);
-    ball.body.collideWorldBounds = true;
-    ball.body.bounce.setTo(0.9, 0.9);
-    
-    // Enable input.
-    ball.inputEnabled = true;
-    ball.input.start(0, true);
-    ball.events.onInputDown.add(set);
-    ball.events.onInputUp.add(launch);
-    
-    animation = ball.animations.add('swim');
-    ball.animations.play('swim',30,true);
+   
     
     
     //Great wall:
@@ -101,8 +90,22 @@ function create() {
     });
 
     text.anchor.setTo(1,5, 6);
-
     
+     ball = game.add.sprite(100, 400, 'ball');
+    game.physics.enable(ball, Phaser.Physics.ARCADE);
+    ball.anchor.setTo(0.5, 0.5);
+    ball.body.collideWorldBounds = true;
+    ball.body.bounce.setTo(0.9, 0.9);
+    
+    // Enable input.
+    ball.inputEnabled = true;
+    ball.input.start(0, true);
+    ball.events.onInputDown.add(set);
+    ball.events.onInputUp.add(launch);
+    
+    animation = ball.animations.add('swim');
+    ball.animations.play('swim',30,true);
+
     
 }
 
@@ -168,9 +171,9 @@ function update() {
 }
 
 function failure() {
-        isDead = true;
         ball.body.moves = false;
         ball.loadTexture('deadfish', 0);
+        isDead = true;
         failureSound = game.add.audio('noSuccess');
         failureSound.play();
         game.time.events.add(Phaser.Timer.SECOND * 2, backtoStart, this);
@@ -192,13 +195,11 @@ function backtoStart() {
         
 function updateSaveText() {
     count++;
-    text.setText("Fish saved: " + count );
-
+    text.setText("Fish saved: " + count);
 }
 
 
 function render() {
-
 
 
 }
