@@ -277,7 +277,7 @@ function backtoStart() {
     makeFishAlive();
     ball.body.moves = false;
     ball.x = 100;
-    ball.y = 400;
+    ball.y = 300;
     isDead = false;
 }
         
