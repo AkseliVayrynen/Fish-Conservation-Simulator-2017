@@ -16,6 +16,7 @@ function preload() {
     game.load.spritesheet('ball', 'assets/resizeimage.net-output.png', 64, 64);
     game.load.image('goal', 'assets/goaltest.png');
     game.load.image('wall', 'assets/wall.png');
+    game.load.image('deadfish', 'assets/dead fisu.png');
 
 }
 
@@ -23,6 +24,9 @@ var arrow;
 var ball;
 var catchFlag = false;
 var launchVelocity = 0;
+var text;
+var count;
+var goal;
 
 function create() {
 
@@ -71,17 +75,28 @@ function create() {
     ball.animations.play('swim',30,true);
     
     
-    //Moving goal:
+    //Great wall:
     var greatWall = game.add.sprite(700, 0, 'wall');
-    var movingGoal = game.add.sprite(700, 0, 'goal');
-    game.physics.enable([movingGoal], Phaser.Physics.ARCADE);
-    
-    movingGoal.body.velocity.setTo(0, 150);
-    movingGoal.body.collideWorldBounds = true;
-    movingGoal.body.bounce.setTo(1,1);
 
-    //For testing purposes:
-    text = game.add.text(0, 0, "Y-axis: " + movingGoal.body.y);
+    //Moving Goal:
+    goal = game.add.sprite(700, 0, 'goal');
+    game.physics.enable([goal], Phaser.Physics.ARCADE);
+    
+    goal.body.velocity.setTo(0, 150);
+    goal.body.collideWorldBounds = true;
+    goal.body.bounce.setTo(1,1);
+    
+     count = 0;
+
+    
+    text = game.add.text(game.world.centerX, game.world.centerY, "Fish saved: 0", {
+        font: "35px Arial",
+        fill: "black",
+        align: "center"
+    });
+
+    text.anchor.setTo(1,5, 6);
+
     
 }
 
@@ -123,9 +138,38 @@ function update() {
         analog.rotation = arrow.rotation - 3.14 / 2;
         analog.height = game.physics.arcade.distanceToPointer(arrow);  
         launchVelocity = analog.height;
-    }   
+    }
+    
+    var fishX = ball.x;
+    var fishY = ball.y;
+    
+    
+    //Point counter:
+    if (fishX >= 650 && catchFlag != true) {
+        ball.body.moves = false;
+        ball.loadTexture('deadfish', 0);
+        ball.x = 100;
+        ball.y = 400;
+        
+        /* 
+        ADD MAKES FISH ALIVE AGAIN:
+        ball.loadTexture('ball', 0);
+        animation = ball.animations.add('swim');
+        ball.animations.play('swim',30,true);
+        updateText(); */
+    }
+    
 
 }
+
+
+function updateText() {
+
+    count++;
+    text.setText("Fish saved: " + count );
+
+}
+
 
 function render() {
 
