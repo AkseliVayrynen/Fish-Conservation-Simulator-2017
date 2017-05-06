@@ -42,7 +42,8 @@ function preload() {
     game.load.image('goal', 'assets/goaltest.png');
     game.load.image('wall', 'assets/wall.png');
     game.load.image('deadfish', 'assets/kuollutkala.png');
-    game.load.audio('noSuccess', 'assets/epaonnistuminen.mp3');
+    game.load.audio('noSuccess', 'assets/epaonnistuminen.ogg');
+    game.load.audio('yay', 'assets/yay.wav');
 
 }
 
@@ -54,6 +55,7 @@ var text;
 var count = 0;
 var goal;
 var failureSound;
+var successSound;
 var isDead = false;
 var timeLeft = 10;
 var timeText;
@@ -247,6 +249,8 @@ function update() {
     //If fish goes thru the goal
     if (fishX >= 750 && catchFlag != true && !isDead) {
         ball.x = 900;
+        successSound = game.add.audio('yay');
+        successSound.play();
         updateSaveText();
         giveMoreTime();
         backtoStart();
