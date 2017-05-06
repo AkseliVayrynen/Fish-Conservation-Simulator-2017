@@ -29,7 +29,8 @@ var text;
 var count;
 var goal;
 var failureSound;
-
+var timer;
+var isDead = false;
 function create() {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -99,6 +100,8 @@ function create() {
 
     text.anchor.setTo(1,5, 6);
 
+    timer = game.time.create(false);
+    
     
 }
 
@@ -146,17 +149,16 @@ function update() {
     var fishY = ball.y;
     
 
-    //Point counter:
-    if (fishX >= 650 && catchFlag != true) {
+    //If fish hits the wall:
+    if (fishX >= 650 && catchFlag != true && !isDead) {
         if (ball.y < goal.y || ball.y > goal.y + 150) {
-        ball.body.moves = false;
-        ball.loadTexture('deadfish', 0);
-        failureSound = game.add.audio('noSuccess');
-        failureSound.play();
-        ball.x = 100;
-        ball.y = 400;
+        failure();
+        }
+    
+    //If fish goes thru the goal
+    if (fishX >= 950 && catchFlag != true && !isDead) {
+        backtoStart();
         updateText();
-        
         }
         /* 
         ADD MAKES FISH ALIVE AGAIN:
@@ -169,12 +171,26 @@ function update() {
 
 }
 
-
+function failure() {
+        isDead = true;
+        ball.body.moves = false;
+        ball.loadTexture('deadfish', 0);
+        failureSound = game.add.audio('noSuccess');
+        failureSound.play();
+        backtoStart();
+}
+        
+        
+function backtoStart() {
+    ball.body.moves = false;
+    ball.x = 100;
+    ball.y = 400;
+    isDead = false;
+}
+        
 function updateText() {
-
     count++;
-    text.setText("Fish saved: " + count +" Y-akseli " + goal.y );
-    
+    text.setText("Fish saved: " + count );
 
 }
 
