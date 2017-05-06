@@ -38,7 +38,7 @@ function preload() {
     game.load.image('arrow', 'assets/nuoli.png');
     game.load.spritesheet('ball', 'assets/resizeimage.net-output.png', 64, 64);
     game.load.spritesheet('happyfish', 'assets/Staattinenhymy2.png', 64, 64);
-    game.load.spritesheet('happyfishleft', 'assets/happyfishtotheleft.png', 64, 64);
+    game.load.spritesheet('happyfish2', 'assets/ernukala.png', 64, 64);
     game.load.image('goal', 'assets/goaltest.png');
     game.load.image('wall', 'assets/wall.png');
     game.load.image('deadfish', 'assets/kuollutkala.png');
@@ -154,13 +154,13 @@ function create() {
     happyfish2.body.collideWorldBounds = true;
     happyfish2.body.bounce.setTo(1,1);
     
-    happyfish3= game.add.sprite(900, 100, 'happyfish');
+    happyfish3= game.add.sprite(900, 100, 'happyfish2');
     game.physics.enable([happyfish3], Phaser.Physics.ARCADE);
     happyfish3.body.gravity.x = 400;
     happyfish3.body.collideWorldBounds = true;
     happyfish3.body.bounce.setTo(1,1);
     
-    happyfish4= game.add.sprite(930, 350, 'happyfish');
+    happyfish4= game.add.sprite(830, 350, 'happyfish');
     game.physics.enable([happyfish4], Phaser.Physics.ARCADE);
     happyfish4.body.gravity.x = 400;
     happyfish4.body.collideWorldBounds = true;
