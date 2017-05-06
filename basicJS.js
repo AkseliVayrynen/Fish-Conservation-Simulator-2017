@@ -37,7 +37,7 @@ function preload() {
     game.load.image('analog', 'assets/black.png');
     game.load.image('arrow', 'assets/nuoli.png');
     game.load.spritesheet('ball', 'assets/resizeimage.net-output.png', 64, 64);
-    game.load.spritesheet('happyfish', 'assets/Staattinenhymy.png', 64, 64);
+    game.load.spritesheet('happyfish', 'assets/Staattinenhymy2.png', 64, 64);
     game.load.spritesheet('happyfishleft', 'assets/happyfishtotheleft.png', 64, 64);
     game.load.image('goal', 'assets/goaltest.png');
     game.load.image('wall', 'assets/wall.png');
@@ -132,7 +132,7 @@ function create() {
     ball.anchor.setTo(0.5, 0.5);
     ball.body.collideWorldBounds = true;
     ball.body.bounce.setTo(0.9, 0.9);
-    //CHANGE THIS VALUE IF YOU WANT TO CHANGE GRAVITY!!!
+    
     
     // Enable input.
     ball.inputEnabled = true;
@@ -155,10 +155,16 @@ function create() {
     happyfish2.body.bounce.setTo(1,1);
     
     happyfish3= game.add.sprite(900, 100, 'happyfish');
+    game.physics.enable([happyfish3], Phaser.Physics.ARCADE);
+    happyfish3.body.gravity.x = 400;
+    happyfish3.body.collideWorldBounds = true;
+    happyfish3.body.bounce.setTo(1,1);
     
-    
-    happyfish4= game.add.sprite(930, 350, 'happyfishleft');
-    
+    happyfish4= game.add.sprite(930, 350, 'happyfish');
+    game.physics.enable([happyfish4], Phaser.Physics.ARCADE);
+    happyfish4.body.gravity.x = 400;
+    happyfish4.body.collideWorldBounds = true;
+    happyfish4.body.bounce.setTo(1,1);
     
     
    // sprite animations  
@@ -195,8 +201,9 @@ function set(ball, pointer) {
 function launch() {
 
     catchFlag = false;
+    //CHANGE THIS VALUE IF YOU WANT TO CHANGE GRAVITY!!!
+    ball.body.gravity.y = 400;
     
-    ball.body.gravity.y = 400; 
     ball.body.moves = true;
     arrow.alpha = 0;
     analog.alpha = 0;
