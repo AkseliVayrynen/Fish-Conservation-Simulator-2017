@@ -133,7 +133,7 @@ function create() {
     ball.body.collideWorldBounds = true;
     ball.body.bounce.setTo(0.9, 0.9);
     //CHANGE THIS VALUE IF YOU WANT TO CHANGE GRAVITY!!!
-    ball.body.gravity.y = 400; 
+    
     // Enable input.
     ball.inputEnabled = true;
     ball.input.start(0, true);
@@ -196,6 +196,7 @@ function launch() {
 
     catchFlag = false;
     
+    ball.body.gravity.y = 400; 
     ball.body.moves = true;
     arrow.alpha = 0;
     analog.alpha = 0;
