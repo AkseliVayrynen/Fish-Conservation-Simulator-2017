@@ -29,8 +29,10 @@ var text;
 var count;
 var goal;
 var failureSound;
-var timer;
 var isDead = false;
+var timeLeft = 10;
+
+
 function create() {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -100,7 +102,6 @@ function create() {
 
     text.anchor.setTo(1,5, 6);
 
-    timer = game.time.create(false);
     
     
 }
@@ -157,15 +158,10 @@ function update() {
     
     //If fish goes thru the goal
     if (fishX >= 950 && catchFlag != true && !isDead) {
+        updateSaveText();
         backtoStart();
-        updateText();
+        
         }
-        /* 
-        ADD MAKES FISH ALIVE AGAIN:
-        ball.loadTexture('ball', 0);
-        animation = ball.animations.add('swim');
-        ball.animations.play('swim',30,true);
-         */
     }
     
 
@@ -177,18 +173,24 @@ function failure() {
         ball.loadTexture('deadfish', 0);
         failureSound = game.add.audio('noSuccess');
         failureSound.play();
-        backtoStart();
+        game.time.events.add(Phaser.Timer.SECOND * 2, backtoStart, this);
+}
+ 
+function makeFishAlive() {
+        ball.loadTexture('ball', 0);
+        animation = ball.animations.add('swim');
+        ball.animations.play('swim',30,true);
 }
         
-        
 function backtoStart() {
+    makeFishAlive();
     ball.body.moves = false;
     ball.x = 100;
     ball.y = 400;
     isDead = false;
 }
         
-function updateText() {
+function updateSaveText() {
     count++;
     text.setText("Fish saved: " + count );
 
