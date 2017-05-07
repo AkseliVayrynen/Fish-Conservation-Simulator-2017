@@ -5,14 +5,11 @@ HAVE FUN!
 
 /*
 In order to run different "windows" in the game, we use gameStates.
-
         The gameStates are as follows:
         1 --------- Intro
         2 --------- Main Menu
         3 --------- The game itself
         4 --------- Help
-
-
 */
 var gameState = 3;
 
@@ -203,44 +200,58 @@ function set(ball, pointer) {
     catchFlag = true;
 
 }
-
+var bounceVelocityX = 0;
+var bounceVelocityY = 0;
+    
 function launch() {
-
     catchFlag = false;
     //CHANGE THIS VALUE IF YOU WANT TO CHANGE GRAVITY!!!
     ball.body.gravity.y = 400;
-    
     ball.body.moves = true;
     arrow.alpha = 0;
     analog.alpha = 0;
-    Xvector = (arrow.x - ball.x) * 3;
+    Xvector = (arrow.x - Math.min(ball.x,400)) * 3;
     Yvector = (arrow.y - ball.y) * 3;
+    bounceVelocityX = Math.abs(Xvector)-1.5*Math.abs(Xvector)
+    bounceVelocityY = Math.abs(Yvector)-1.2*Math.abs(Yvector)    
     ball.body.allowGravity = true;  
     ball.body.velocity.setTo(Xvector, Yvector);
 
+}
+    
+function bounce(){
+if(ball.x>630&&isDead){
+    updateGravity();
+   ball.body.velocity.setTo(bounceVelocityX,bounceVelocityY);
+    ball.body.bounce.setTo(0.4, 0.5);
+}    
+}
+function updateGravity(){
+    if(!isDead){
+        ball.body.gravity.y = 1200;
+    }
 }
 
 function update() {
 
     arrow.rotation = game.physics.arcade.angleBetween(arrow, ball);
-    
+    bounce();
     reduceTime();
     updateRect();
-  
-    
+    console.log(ball.y);
     if (catchFlag == true)
     {
         //  Track the ball sprite to the mouse  
-        ball.x = game.input.activePointer.worldX;   
-        ball.y = game.input.activePointer.worldY;
+        ball.x = Math.max(50,Math.min(390,game.input.activePointer.worldX));   
+        ball.y = Math.max(101,Math.min(game.input.activePointer.worldY,560));
         
         arrow.alpha = 1;    
-        analog.alpha = 0.5;
+        analog.alpha = 1.0;
         analog.rotation = arrow.rotation - 3.14 / 2;
-        analog.height = game.physics.arcade.distanceToPointer(arrow);  
+        analog.height = game.physics.arcade.distanceToPointer(arrow);
+        console.log(game.physics.arcade.distanceToPointer(arrow));
         launchVelocity = analog.height;
     }
-    
     var fishX = ball.x;
     var fishY = ball.y;
     
@@ -267,8 +278,8 @@ function update() {
 }
 
 function failure() {
-        ball.body.moves = false;
-        ball.x = 670;
+    //    ball.body.moves = false;
+    //    ball.x = 670;
         ball.loadTexture('deadfish', 0);
         isDead = true;
         failureSound = game.add.audio('noSuccess');
