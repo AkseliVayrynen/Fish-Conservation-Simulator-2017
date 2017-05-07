@@ -39,7 +39,7 @@ function preload() {
     game.load.spritesheet('ball', 'assets/resizeimage.net-output.png', 64, 64);
     game.load.spritesheet('happyfish', 'assets/Staattinenhymy2.png', 64, 64);
     game.load.spritesheet('happyfish2', 'assets/ernukala.png', 64, 64);
-    game.load.spritesheet('goal', 'assets/vesi.jpg', 100,150);
+    game.load.spritesheet('goal', 'assets/vesi.png', 100,150);
     game.load.spritesheet('wall', 'assets/wall.jpg', 100, 600);
     game.load.image('deadfish', 'assets/kuollutkala.png');
     game.load.audio('noSuccess', 'assets/epaonnistuminen.ogg');
