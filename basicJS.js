@@ -41,7 +41,8 @@ function preload() {
     game.load.spritesheet('happyfish', 'assets/Staattinenhymy2.png', 64, 64);
     game.load.spritesheet('happyfish2', 'assets/ernukala.png', 64, 64);
     game.load.spritesheet('goal', 'assets/vesi.jpg', 100,150);
-    game.load.spritesheet('wall', 'assets/wall.jpg', 100, 600);
+    game.load.spritesheet('wall', 'assets/wall.png', 125, 600);
+    game.load.spritesheet('wall2', 'assets/wall2.png', 125, 600);
     game.load.image('deadfish', 'assets/kuollutkala.png');
   //  game.load.audio('noSuccess', 'assets/epaonnistuminen.ogg');
    // game.load.audio('yay', 'assets/yay.wav');
@@ -60,6 +61,7 @@ var ball;
 var catchFlag = false;
 var launchVelocity = 0;
 var text;
+var text2 = {}
 var count = 0;
 var goal;
 var failureSound;
@@ -128,7 +130,7 @@ function create() {
     greatWall.body.collideWorldBounds = false;
     greatWall.body.bounce.setTo(0,0);
  
-    greatWall2 = game.add.sprite(700, -375, 'wall');
+    greatWall2 = game.add.sprite(700, -375, 'wall2');
     game.physics.enable([greatWall2], Phaser.Physics.ARCADE);
     greatWall2.body.gravity.y = 0;
     greatWall2.body.velocity.setTo(0,0);
@@ -153,6 +155,14 @@ function create() {
         fill: "black",
         align: "center"
     });
+    
+    text2 = game.add.text(game.world.centerX+65, 55, "+1", {
+        font: "35px Arial",
+        fill: "black",
+        align: "center"
+    });
+    text2.alpha = 0;
+
 
     text.anchor.setTo(0.5, 6);
     
@@ -233,13 +243,13 @@ var goingUp2 = true;
     
 function moveWall(){
     if(!goingUp){
-    greatWall.y = greatWall.y+5
+    greatWall.y = greatWall.y+4
     if(greatWall.y>600){
         goingUp = true
     }
     }
     else if(goingUp){
-        greatWall.y = greatWall.y-5
+        greatWall.y = greatWall.y-4
         if(greatWall.y<150){
             goingUp=false
         }
@@ -247,13 +257,13 @@ function moveWall(){
 }
     function moveWall2(){
     if(!goingUp){
-    greatWall2.y = greatWall2.y+5
+    greatWall2.y = greatWall2.y+4
     if(greatWall2.y>375){
         goingUp2 = true
     }
     }
     else if(goingUp){
-        greatWall2.y = greatWall2.y-5
+        greatWall2.y = greatWall2.y-4
         if(greatWall2.y<0){
             goingUp2=false
         }
@@ -291,6 +301,16 @@ function updateGravity(){
 
 function randomise(){
     effectNum = Math.floor((Math.random() * 5) + 1);
+}
+    
+function showText(){
+    text2.alpha = 1;
+    game.time.events.add(Phaser.Timer.SECOND * 4, fadeText, this);
+}
+    
+function fadeText() {
+    game.time.events.add(0, function() {    game.add.tween(text2).to({y: 45}, 500, Phaser.Easing.Linear.None, true);   game.add.tween(text2).to({alpha: 0}, 300, Phaser.Easing.Linear.None, true);}, this);
+    text2.y = 55;
 }    
     
 function update() {
@@ -317,7 +337,7 @@ function update() {
     var fishX = ball.x;
     var fishY = ball.y;
     //If fish hits the wall:
-    if (fishX >= 650 && catchFlag != true && !isDead) {
+    if (fishX >= 680 && catchFlag != true && !isDead) {
         if (ball.y < greatWall.y- 160|| ball.y > greatWall.y) {
         failure();
          console.log("seinä")
@@ -343,6 +363,11 @@ function update() {
         successSound = game.add.audio('yay');
         successSound.play();
         updateSaveText();
+        if(timeToEnd>1){
+        showText();
+        fadeText();
+        }
+        console.log(timeToEnd);
         giveMoreTime();
         backtoStart();
         game.time.events.add(Phaser.Timer.SECOND * 0.2, fade, this);
