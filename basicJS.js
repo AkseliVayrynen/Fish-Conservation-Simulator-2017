@@ -5,11 +5,14 @@ HAVE FUN!
 
 /*
 In order to run different "windows" in the game, we use gameStates.
+
         The gameStates are as follows:
         1 --------- Intro
         2 --------- Main Menu
-        3 --------- The game itself
+        3 --------- The game itsel
         4 --------- Help
+
+
 */
 var gameState = 3;
 
@@ -27,22 +30,28 @@ var game = new Phaser.Game(1000, 600, Phaser.CANVAS, 'test', { preload: preload,
 
 
 
+
 /* The game physics, with the help of phaser.io */
 
 function preload() {
-    game.load.audio('BG', 'assets/gamemusic.mp3');
+  //  game.load.audio('BG', 'assets/gamemusic.mp3');
     game.load.image('analog', 'assets/black.png');
     game.load.image('arrow', 'assets/nuoli.png');
     game.load.spritesheet('ball', 'assets/resizeimage.net-output.png', 64, 64);
     game.load.spritesheet('happyfish', 'assets/Staattinenhymy2.png', 64, 64);
     game.load.spritesheet('happyfish2', 'assets/ernukala.png', 64, 64);
-    game.load.spritesheet('goal', 'assets/vesi.png', 100,150);
+    game.load.spritesheet('goal', 'assets/vesi.jpg', 100,150);
     game.load.spritesheet('wall', 'assets/wall.jpg', 100, 600);
     game.load.image('deadfish', 'assets/kuollutkala.png');
-    game.load.audio('noSuccess', 'assets/epaonnistuminen.ogg');
-    game.load.audio('yay', 'assets/yay.wav');
+  //  game.load.audio('noSuccess', 'assets/epaonnistuminen.ogg');
+   // game.load.audio('yay', 'assets/yay.wav');
     game.load.image('menuscreen','assets/menubackground.png');
     game.load.image('gamescreen','assets/gamescreen.png')
+    game.load.image('pow1','assets/pow1.png')
+    game.load.image('pow2','assets/pow2.png')
+    game.load.image('pow3','assets/pow3.png')
+    game.load.image('pow4','assets/pow4.png')
+    game.load.image('pow5','assets/pow5.png')
 
 }
 
@@ -65,7 +74,10 @@ var rectTimer = {
         w: 170,
         h: 50,
     };
-
+var greatWall = {}
+var greatWall2 = {}
+var effect = {}
+var effectNum = {}
 
 function create() {
 
@@ -86,9 +98,8 @@ function create() {
     graphics.endFill();
     window.graphics = graphics;
     graphics.drawRect(395, 350, 10, 250);
-
     analog = game.add.sprite(400, 300, 'analog');
-
+    
     game.physics.enable(analog, Phaser.Physics.ARCADE);
 
     analog.body.allowGravity = false;
@@ -110,17 +121,32 @@ function create() {
     
     
     //Great wall:
-    var greatWall = game.add.sprite(700, 0, 'wall');
+    greatWall = game.add.sprite(700, 375, 'wall');
+    game.physics.enable([greatWall], Phaser.Physics.ARCADE);
+    greatWall.body.gravity.y = 0;
+    greatWall.body.velocity.setTo(0,0);
+    greatWall.body.collideWorldBounds = false;
+    greatWall.body.bounce.setTo(0,0);
+ 
+    greatWall2 = game.add.sprite(700, -375, 'wall');
+    game.physics.enable([greatWall2], Phaser.Physics.ARCADE);
+    greatWall2.body.gravity.y = 0;
+    greatWall2.body.velocity.setTo(0,0);
+    greatWall2.body.collideWorldBounds = false;
+    greatWall2.body.bounce.setTo(0,0);
+        
     //Moving Goal:
-    goal = game.add.sprite(700, 0, 'goal');
+    /*goal = game.add.sprite(700, 0, 'goal');
     game.physics.enable([goal], Phaser.Physics.ARCADE);
     goal.body.gravity.y = 0;
     goal.body.velocity.setTo(0, 150);
     goal.body.collideWorldBounds = true;
-    goal.body.bounce.setTo(1,1);
+    goal.body.bounce.setTo(1,1);*/
+    
+    effect = game.add.sprite(670,greatWall.y-100,'pow'+effectNum)
+    effect.alpha = 0
     
     count = 0;
-
     
     text = game.add.text(game.world.centerX, game.world.centerY, "Fish saved: " + count, {
         font: "35px Arial",
@@ -193,15 +219,46 @@ function create() {
 }
 
 function set(ball, pointer) {
-
     ball.body.moves = false;
     ball.body.velocity.setTo(0, 0);
     ball.body.allowGravity = false;
     catchFlag = true;
 
 }
+
 var bounceVelocityX = 0;
 var bounceVelocityY = 0;
+var goingUp = false;
+var goingUp2 = true;
+    
+function moveWall(){
+    if(!goingUp){
+    greatWall.y = greatWall.y+5
+    if(greatWall.y>600){
+        goingUp = true
+    }
+    }
+    else if(goingUp){
+        greatWall.y = greatWall.y-5
+        if(greatWall.y<150){
+            goingUp=false
+        }
+    }  
+}
+    function moveWall2(){
+    if(!goingUp){
+    greatWall2.y = greatWall2.y+5
+    if(greatWall2.y>375){
+        goingUp2 = true
+    }
+    }
+    else if(goingUp){
+        greatWall2.y = greatWall2.y-5
+        if(greatWall2.y<0){
+            goingUp2=false
+        }
+    }  
+}  
     
 function launch() {
     catchFlag = false;
@@ -232,13 +289,18 @@ function updateGravity(){
     }
 }
 
+function randomise(){
+    effectNum = Math.floor((Math.random() * 5) + 1);
+}    
+    
 function update() {
 
     arrow.rotation = game.physics.arcade.angleBetween(arrow, ball);
     bounce();
     reduceTime();
     updateRect();
-    console.log(ball.y);
+    moveWall();
+    moveWall2();
     if (catchFlag == true)
     {
         //  Track the ball sprite to the mouse  
@@ -249,27 +311,41 @@ function update() {
         analog.alpha = 1.0;
         analog.rotation = arrow.rotation - 3.14 / 2;
         analog.height = game.physics.arcade.distanceToPointer(arrow);
-        console.log(game.physics.arcade.distanceToPointer(arrow));
         launchVelocity = analog.height;
     }
+    
     var fishX = ball.x;
     var fishY = ball.y;
-    
-
     //If fish hits the wall:
     if (fishX >= 650 && catchFlag != true && !isDead) {
-        if (ball.y < goal.y || ball.y > goal.y + 150) {
+        if (ball.y < greatWall.y- 160|| ball.y > greatWall.y) {
         failure();
+         console.log("seinä")
+        console.log(greatWall.y)
+        console.log("seinä2")
+        console.log(greatWall2.y)
         }
-    
+        
+        function fade(){
+             effect.alpha = 0;
+        }
     //If fish goes thru the goal
     if (fishX >= 750 && catchFlag != true && !isDead) {
         ball.x = 900;
+        randomise()
+        if(goingUp){
+            effect = game.add.sprite(670,greatWall.y-200,'pow'+effectNum)
+        }
+        else if(!goingUp){
+            effect = game.add.sprite(670,greatWall.y-100,'pow'+effectNum)
+        }
+        effect.alpha = 1;
         successSound = game.add.audio('yay');
         successSound.play();
         updateSaveText();
         giveMoreTime();
         backtoStart();
+        game.time.events.add(Phaser.Timer.SECOND * 0.2, fade, this);
         
         }
     }
@@ -278,8 +354,8 @@ function update() {
 }
 
 function failure() {
-    //    ball.body.moves = false;
-    //    ball.x = 670;
+      //  ball.body.moves = false;
+       // ball.x = 270;
         ball.loadTexture('deadfish', 0);
         isDead = true;
         failureSound = game.add.audio('noSuccess');
