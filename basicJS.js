@@ -33,14 +33,14 @@ function preload() {
     game.load.image('pow1','assets/pow1.png');
     game.load.image('pow2','assets/pow2.png');
     game.load.image('pow3','assets/pow3.png');
-    game.load.image('pow4','assets/pow4.png');
-    game.load.image('pow5','assets/pow5.png');
-    game.load.image('playagain', 'assets/playagain.png');
+    game.load.spritesheet('buttons', 'assets/buttons3.png', 193 , 71);
+    game.load.spritesheet('buttons2', 'assets/buttons4.png', 193 , 71);
+    
+
 
 }
 
 
-var playAgainButton;    
 var introDone = false;
 var arrow;
 var ball;
@@ -68,6 +68,7 @@ var effect = {}
 var effectNum = {}
 
 function create() {
+    
     if (timeToEnd > 0) {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -76,13 +77,18 @@ function create() {
     game.physics.arcade.gravity.y = 0;
     
     game.add.tileSprite(0, 0, 1000, 600, 'gamescreen');
+        
+    //create menu button
+    button = game.add.button(50, 500, 'buttons', painettu, this, 2, 1, 0);
+    button.onInputOver.add(over, this);
+    button.onInputOut.add(out, this);
+    button.onInputUp.add(up, this);
 
     
     backGroundMusic = game.add.audio('BG');
     backGroundMusic.play();
     
     var graphics = game.add.graphics(0,0);
-   // graphics.beginFill(0x049e0c);
     // draw a background rectangle for the timer
     graphics.beginFill(0x000000, 1);
     graphics.drawRect(160, 20, 180, 60);
@@ -125,14 +131,6 @@ function create() {
     greatWall2.body.velocity.setTo(0,0);
     greatWall2.body.collideWorldBounds = false;
     greatWall2.body.bounce.setTo(0,0);
-        
-    //Moving Goal:
-    /*goal = game.add.sprite(700, 0, 'goal');
-    game.physics.enable([goal], Phaser.Physics.ARCADE);
-    goal.body.gravity.y = 0;
-    goal.body.velocity.setTo(0, 150);
-    goal.body.collideWorldBounds = true;
-    goal.body.bounce.setTo(1,1);*/
     
     effect = game.add.sprite(670,greatWall.y-100,'pow'+effectNum)
     effect.alpha = 0
@@ -219,7 +217,6 @@ function create() {
         game.add.tileSprite(0, 0, 1000, 600, 'gamescreen');
         
         backGroundMusic.stop();
-        playAgainButton = game.add.button(93, 250, 'playagain', buttonClicked, this, 2, 1, 0);
         text = game.add.text(game.world.centerX, game.world.centerY,    "You ran out of time! Fish saved: " + count, {
             font: "55px Arial",
             fill: "black",
@@ -227,6 +224,11 @@ function create() {
     });
         
         text.anchor.setTo(0.5, 3);
+                
+        button2 = game.add.button(400, game.world.centerY, 'buttons2', buttonClicked, this, 2, 1, 0);
+        button2.onInputOver.add(over, this);
+        button2.onInputOut.add(out, this);
+        button2.onInputUp.add(up, this);
         
     }
 }
@@ -303,7 +305,7 @@ function updateGravity(){
 }
 
 function randomise(){
-    effectNum = Math.floor((Math.random() * 5) + 1);
+    effectNum = Math.floor((Math.random() * 3) + 1);
 }
     
 function showText(){
@@ -317,7 +319,6 @@ function fadeText() {
 }    
     
 function update() {
-    
     if (timeToEnd > 0) {
 
     arrow.rotation = game.physics.arcade.angleBetween(arrow, ball);
@@ -345,10 +346,6 @@ function update() {
     if (fishX >= 680 && catchFlag != true && !isDead) {
         if (ball.y < greatWall.y- 160|| ball.y > greatWall.y) {
         failure();
-         console.log("seinä")
-        console.log(greatWall.y)
-        console.log("seinä2")
-        console.log(greatWall2.y)
         }
         
         function fade(){
@@ -372,7 +369,6 @@ function update() {
         showText();
         fadeText();
         }
-        console.log(timeToEnd);
         giveMoreTime();
         backtoStart();
         game.time.events.add(Phaser.Timer.SECOND * 0.2, fade, this);
@@ -386,8 +382,6 @@ function update() {
 }
 
 function failure() {
-      //  ball.body.moves = false;
-       // ball.x = 270;
         ball.loadTexture('deadfish', 0);
         isDead = true;
         failureSound = game.add.audio('noSuccess');
@@ -457,6 +451,19 @@ function giveMoreTime() {
     if (timeToEnd > 0) {
         timeToEnd = Math.min(1000,timeToEnd + 350);
     }
+}
+    
+function up() {
+}
+
+function over() {
+}
+
+function out() {
+}
+    
+function painettu() {
+    window.open("fishgame.html", '_self');
 }
 
 function render() {
