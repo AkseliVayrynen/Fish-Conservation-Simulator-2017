@@ -2,16 +2,14 @@
 THIS IS A GAME MADE FOR VJP 2017 AT AALTO UNIVERSITY BY KINNARI, PÖNTINEN, VÄYRYNEN.
 HAVE FUN!
 */
-
-runGame(); 
-
+runGame();
 
 //THE GAME ITSELF:
 
 function runGame() {
 
     
-var game = new Phaser.Game(1000, 600, Phaser.CANVAS, 'test', { preload: preload, create: create, update: update, render: render });
+var game = new Phaser.Game(1000, 600, Phaser.CANVAS, 'test2', { preload: preload, create: create, update: update, render: render });
 
 
 
@@ -231,7 +229,6 @@ function create() {
         text.anchor.setTo(0.5, 3);
         
     }
-
 }
 
 function set(ball, pointer) {
