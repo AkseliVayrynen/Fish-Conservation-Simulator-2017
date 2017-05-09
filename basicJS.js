@@ -3,22 +3,7 @@ THIS IS A GAME MADE FOR VJP 2017 AT AALTO UNIVERSITY BY KINNARI, PÖNTINEN, VÄY
 HAVE FUN!
 */
 
-/*
-In order to run different "windows" in the game, we use gameStates.
-
-        The gameStates are as follows:
-        1 --------- Intro
-        2 --------- Main Menu
-        3 --------- The game itsel
-        4 --------- Help
-
-
-*/
-var gameState = 3;
-
-if (gameState === 3) {
-    runGame();
-} 
+runGame(); 
 
 
 //THE GAME ITSELF:
@@ -52,9 +37,12 @@ function preload() {
     game.load.image('pow3','assets/pow3.png');
     game.load.image('pow4','assets/pow4.png');
     game.load.image('pow5','assets/pow5.png');
+    game.load.image('playagain', 'assets/playagain.png');
 
 }
-    
+
+
+var playAgainButton;    
 var introDone = false;
 var arrow;
 var ball;
@@ -231,7 +219,9 @@ function create() {
         
     } else {
         game.add.tileSprite(0, 0, 1000, 600, 'gamescreen');
+        
         backGroundMusic.stop();
+        playAgainButton = game.add.button(93, 250, 'playagain', buttonClicked, this, 2, 1, 0);
         text = game.add.text(game.world.centerX, game.world.centerY,    "You ran out of time! Fish saved: " + count, {
             font: "55px Arial",
             fill: "black",
@@ -460,7 +450,12 @@ function reduceTime() {
         create();
     }
 }
-
+    
+    
+function buttonClicked() {
+    window.open("fishgamesite.html", "_self");
+}
+    
 function giveMoreTime() {
     if (timeToEnd > 0) {
         timeToEnd = Math.min(1000,timeToEnd + 350);
