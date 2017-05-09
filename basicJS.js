@@ -40,7 +40,6 @@ function preload() {
     game.load.spritesheet('ball', 'assets/resizeimage.net-output.png', 64, 64);
     game.load.spritesheet('happyfish', 'assets/Staattinenhymy2.png', 64, 64);
     game.load.spritesheet('happyfish2', 'assets/ernukala.png', 64, 64);
-    game.load.spritesheet('goal', 'assets/vesi.jpg', 100,150);
     game.load.spritesheet('wall', 'assets/wall.png', 125, 600);
     game.load.spritesheet('wall2', 'assets/wall2.png', 125, 600);
     game.load.image('deadfish', 'assets/kuollutkala.png');
@@ -55,6 +54,7 @@ function preload() {
     game.load.image('pow5','assets/pow5.png');
 
 }
+    
 var introDone = false;
 var arrow;
 var ball;
@@ -232,6 +232,13 @@ function create() {
     } else {
         game.add.tileSprite(0, 0, 1000, 600, 'gamescreen');
         backGroundMusic.stop();
+        text = game.add.text(game.world.centerX, game.world.centerY,    "You ran out of time! Fish saved: " + count, {
+            font: "55px Arial",
+            fill: "black",
+            align: "center"
+    });
+        
+        text.anchor.setTo(0.5, 3);
         
     }
 
@@ -323,6 +330,8 @@ function fadeText() {
 }    
     
 function update() {
+    
+    if (timeToEnd > 0) {
 
     arrow.rotation = game.physics.arcade.angleBetween(arrow, ball);
     bounce();
@@ -384,7 +393,9 @@ function update() {
         }
     }
     
-
+    }  else {
+        reduceTime();
+    }
 }
 
 function failure() {
@@ -447,7 +458,7 @@ function reduceTime() {
     }
     } else {
         create();
-    }//Häviämisehto tähän
+    }
 }
 
 function giveMoreTime() {
