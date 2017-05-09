@@ -34,7 +34,7 @@ var game = new Phaser.Game(1000, 600, Phaser.CANVAS, 'test', { preload: preload,
 /* The game physics, with the help of phaser.io */
 
 function preload() {
-  //  game.load.audio('BG', 'assets/gamemusic.mp3');
+    game.load.audio('BG', 'assets/gamemusic.mp3');
     game.load.image('analog', 'assets/black.png');
     game.load.image('arrow', 'assets/nuoli.png');
     game.load.spritesheet('ball', 'assets/resizeimage.net-output.png', 64, 64);
@@ -44,18 +44,18 @@ function preload() {
     game.load.spritesheet('wall', 'assets/wall.png', 125, 600);
     game.load.spritesheet('wall2', 'assets/wall2.png', 125, 600);
     game.load.image('deadfish', 'assets/kuollutkala.png');
-  //  game.load.audio('noSuccess', 'assets/epaonnistuminen.ogg');
-   // game.load.audio('yay', 'assets/yay.wav');
+    game.load.audio('noSuccess', 'assets/epaonnistuminen.ogg');
+    game.load.audio('yay', 'assets/yay.wav');
     game.load.image('menuscreen','assets/menubackground.png');
-    game.load.image('gamescreen','assets/gamescreen.png')
-    game.load.image('pow1','assets/pow1.png')
-    game.load.image('pow2','assets/pow2.png')
-    game.load.image('pow3','assets/pow3.png')
-    game.load.image('pow4','assets/pow4.png')
-    game.load.image('pow5','assets/pow5.png')
+    game.load.image('gamescreen','assets/gamescreen.png');
+    game.load.image('pow1','assets/pow1.png');
+    game.load.image('pow2','assets/pow2.png');
+    game.load.image('pow3','assets/pow3.png');
+    game.load.image('pow4','assets/pow4.png');
+    game.load.image('pow5','assets/pow5.png');
 
 }
-
+var introDone = false;
 var arrow;
 var ball;
 var catchFlag = false;
@@ -82,12 +82,15 @@ var effect = {}
 var effectNum = {}
 
 function create() {
+    if (timeToEnd > 0) {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     // set global gravity
     game.physics.arcade.gravity.y = 0;
-    game.add.tileSprite(0, 0, 1000, 600, 'gamescreen')
+    
+    game.add.tileSprite(0, 0, 1000, 600, 'gamescreen');
+
     
     backGroundMusic = game.add.audio('BG');
     backGroundMusic.play();
@@ -225,6 +228,12 @@ function create() {
     
 
     happyfish4.animations.play('swim2',20,true);
+        
+    } else {
+        game.add.tileSprite(0, 0, 1000, 600, 'gamescreen');
+        backGroundMusic.stop();
+        
+    }
 
 }
 
@@ -406,7 +415,7 @@ function updateSaveText() {
     if (timeToEnd > 0) { 
         count++;
         text.setText("Fish saved: " + count);
-    }
+    } 
 }
 
 function updateRect(){
@@ -436,7 +445,9 @@ function reduceTime() {
     if (count >= 40) {
         timeToEnd = timeToEnd - 5;
     }
-    }
+    } else {
+        create();
+    }//Häviämisehto tähän
 }
 
 function giveMoreTime() {
